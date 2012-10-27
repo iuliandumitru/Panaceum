@@ -1,0 +1,55 @@
+<class name='GroupByReducePipe'>
+    <method name='processNextStart' modifier=''>
+        <body>
+            <expression>final S s = this.starts.next()</expression>
+            <expression>final K key = this.getKey(s)</expression>
+            <expression>final V value = this.getValue(s)</expression>
+            <expression>ExpandableMultiIterator
+                <V>
+                values = (ExpandableMultiIterator<V>) this.byMap.get(key)
+            </expression>
+            <expression>values = new ExpandableMultiIterator<V>()
+            </expression>
+            <expression>this.addValue(value, values)</expression>
+            <expression>this.byMap.put(key, values)</expression>
+            <expression>this.addValue(value, values)</expression>
+            <expression>this.reduceMap.put(entry.getKey(), reduceFunction.compute(entry.getValue()))</expression>
+            <expression>this.byMap.clear()</expression>
+        </body>
+    </method>
+    <method name='addValue' modifier='public'>
+        <parameters>
+            <parameter name='value'/>
+            <parameter name='values'/>
+        </parameters>
+        <body>
+            <expression>values.addIterator((Pipe) value)</expression>
+            <expression>values.addIterator(new SingleIterator<V>(value))
+            </expression>
+        </body>
+    </method>
+    <method name='getSideEffect' modifier='public'>
+        <body></body>
+    </method>
+    <method name='getKey' modifier='private'>
+        <parameters>
+            <parameter name='start'/>
+        </parameters>
+        <body></body>
+    </method>
+    <method name='getValue' modifier='private'>
+        <parameters>
+            <parameter name='start'/>
+        </parameters>
+        <body></body>
+    </method>
+    <method name='reset' modifier='public'>
+        <body>
+            <expression>this.byMap = new HashMap<K, Iterator<V>>()
+            </expression>
+            <expression>this.reduceMap = new HashMap<K, V2>()
+            </expression>
+            <expression>super.reset()</expression>
+        </body>
+    </method>
+</class>
