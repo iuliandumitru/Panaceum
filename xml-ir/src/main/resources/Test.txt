@@ -91,4 +91,5 @@ public class GroupByReducePipe<S, K, V, V2> extends AbstractPipe<S, S> implement
         this.reduceMap = new HashMap<K, V2>();
         super.reset();
     }
+
 }

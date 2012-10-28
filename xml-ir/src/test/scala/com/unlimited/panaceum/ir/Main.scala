@@ -1,7 +1,7 @@
 package com.unlimited.panaceum.ir
 
 import japa.parser.JavaParser
-import CompilationUnitConversions._
+import com.unlimited.panaceum.ir.CompilationUnitConversions._
 
 import com.unlimited.panaceum.utils.XmlFormatter
 
@@ -17,7 +17,7 @@ object Main {
     val compilationUnit = JavaParser.parse(in)
     val xml = compilationUnit.toXML
 
-    println(s"Unformatted: \n\n${xml}\n\n\n")
+//    println(s"Unformatted: \n\n${xml}\n\n\n")
 
     val formattedXml = XmlFormatter.format(xml)
 

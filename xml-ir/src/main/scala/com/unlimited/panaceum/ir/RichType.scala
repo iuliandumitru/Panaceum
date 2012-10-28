@@ -7,7 +7,7 @@ import com.unlimited.panaceum.ir.TypeConversions._
  * Rich type.
  * @author Iulian Dumitru 
  */
-class RichType(t: Type) {
+class RichType(val t: Type) {
 
   def typeName: String = t match {
 

@@ -1,5 +1,7 @@
 package com.unlimited.panaceum.ir
 
+import xml.Elem
+
 /**
  * XML representation of a compilation unit element.
  *

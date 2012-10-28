@@ -10,32 +10,58 @@
         <import>java.util.Iterator</import>
         <import>java.util.Map</import>
     </imports>
-    <class name="GroupByReducePipe">
-        <field isFinal="false" type="Map" name="byMap"/>
-        <field isFinal="true" type="PipeFunction" name="keyFunction"/>
-        <field isFinal="true" type="PipeFunction" name="valueFunction"/>
-        <field isFinal="true" type="PipeFunction" name="reduceFunction"/>
-        <field isFinal="false" type="Map" name="reduceMap"/>
+    <class name="GroupByReducePipe" extends="AbstractPipe<S, S>">
+        <field name="byMap" type="Map" isFinal="false"/>
+        <field name="keyFunction" type="PipeFunction" isFinal="true"/>
+        <field name="valueFunction" type="PipeFunction" isFinal="true"/>
+        <field name="reduceFunction" type="PipeFunction" isFinal="true"/>
+        <field name="reduceMap" type="Map" isFinal="false"/>
         <constructor modifier="public">
             <parameters>
-                <parameter type="PipeFunction" name="keyFunction"/>
-                <parameter type="PipeFunction" name="valueFunction"/>
-                <parameter type="PipeFunction" name="reduceFunction"/>
+                <parameter name="keyFunction" type="PipeFunction"/>
+                <parameter name="valueFunction" type="PipeFunction"/>
+                <parameter name="reduceFunction" type="PipeFunction"/>
             </parameters>
         </constructor>
         <constructor modifier="public">
             <parameters>
-                <parameter type="Map" name="reduceMap"/>
-                <parameter type="PipeFunction" name="keyFunction"/>
-                <parameter type="PipeFunction" name="valueFunction"/>
-                <parameter type="PipeFunction" name="reduceFunction"/>
+                <parameter name="reduceMap" type="Map"/>
+                <parameter name="keyFunction" type="PipeFunction"/>
+                <parameter name="valueFunction" type="PipeFunction"/>
+                <parameter name="reduceFunction" type="PipeFunction"/>
             </parameters>
         </constructor>
-        <method isAbstract="false" isFinal="false" modifer="protected" name="processNextStart"/>
-        <method isAbstract="false" isFinal="false" modifer="public" name="addValue"/>
-        <method isAbstract="false" isFinal="false" modifer="public" name="getSideEffect"/>
-        <method isAbstract="false" isFinal="false" modifer="private" name="getKey"/>
-        <method isAbstract="false" isFinal="false" modifer="private" name="getValue"/>
-        <method isAbstract="false" isFinal="false" modifer="public" name="reset"/>
+        <method name="processNextStart" modifer="protected" isFinal="false" isAbstract="false">
+        </method>
+        <method name="addValue" modifer="public" isFinal="false" isAbstract="false">
+            <parameters>
+                <parameter name="value" type="V"/>
+                <parameter name="values" type="ExpandableMultiIterator"/>
+            </parameters>
+            <body>
+                <stmt type="IfStmt"/>
+            </body>
+        </method>
+        <method name="getSideEffect" modifer="public" isFinal="false" isAbstract="false">
+        </method>
+        <method name="getKey" modifer="private" isFinal="false" isAbstract="false">
+            <parameters>
+                <parameter name="start" type="S"/>
+            </parameters>
+            <body>
+                <stmt type="IfStmt"/>
+            </body>
+        </method>
+        <method name="getValue" modifer="private" isFinal="false" isAbstract="false">
+            <parameters>
+                <parameter name="start" type="S"/>
+            </parameters>
+            <body>
+                <stmt type="IfStmt"/>
+            </body>
+        </method>
+        <method name="reset" modifer="public" isFinal="false" isAbstract="false">
+        </method>
     </class>
 </unit>
+

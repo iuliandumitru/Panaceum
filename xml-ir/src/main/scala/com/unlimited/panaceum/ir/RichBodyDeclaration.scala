@@ -1,7 +1,6 @@
 package com.unlimited.panaceum.ir
 
 import japa.parser.ast.body._
-import japa.parser.ast.`type`.{ReferenceType, ClassOrInterfaceType}
 import com.unlimited.panaceum.ir.TypeConversions._
 import scala.collection.JavaConversions._
 
@@ -10,13 +9,15 @@ import scala.collection.JavaConversions._
  *
  * @author Iulian Dumitru 
  */
-class RichBodyDeclaration(bd: BodyDeclaration) extends XMLRepresentation {
+class RichBodyDeclaration(val bd: BodyDeclaration) extends XMLRepresentation {
+
+  implicit def anyToText(a: AnyVal) = xml.Text(a.toString)
 
   def toXML: String = bd match {
 
-    case md: MethodDeclaration => {
+    case method: MethodDeclaration => {
 
-      val modifiers = md.getModifiers
+      val modifiers = method.getModifiers
       val isFinal = ModifierSet.isFinal(modifiers)
       val isAbstract = ModifierSet.isAbstract(modifiers)
 
@@ -25,46 +26,62 @@ class RichBodyDeclaration(bd: BodyDeclaration) extends XMLRepresentation {
       else if (ModifierSet.isProtected(modifiers)) "protected"
       else throw new Error("Cannot find modifier name!")
 
-      s"""<method name="${md.getName}" modifer="${modifierName}" isFinal="${isFinal}" isAbstract="${isAbstract}" />"""
+      val params = method.getParameters
+
+
+      val body = method.getBody
+      val stmts = body.getStmts
+
+
+      //generate <method> tags
+      params match {
+        case null => {
+          <method name={method.getName} modifer={modifierName} isFinal={isFinal} isAbstract={isAbstract}>
+            <body>
+              {for (stmt <- body.getStmts) yield <stmt type={stmt.getClass.getSimpleName}/>}
+            </body>
+          </method>.toString()
+        }
+        case _ =>
+          <method name={method.getName} modifer={modifierName} isFinal={isFinal} isAbstract={isAbstract}>
+            <parameters>
+              {for (param <- params) yield <parameter name={param.getId.getName} type={param.getType.typeName}/>}
+            </parameters>
+            <body>
+              {for (stmt <- body.getStmts) yield <stmt type={stmt.getClass.getSimpleName}/>}
+            </body>
+          </method>.toString()
+      }
 
     }
 
-    case declaration: FieldDeclaration => {
+    case field: FieldDeclaration => {
 
-      val modifiers = declaration.getModifiers
-
-      val fieldTypeName = declaration.getType match {
-        case t: ClassOrInterfaceType => t.getName
-        case t: ReferenceType => t.getType.typeName
-        case t@_ => throw new Error(s"Error finding field type! Found [$t]")
-      }
-
+      val modifiers = field.getModifiers
+      val fieldTypeName = field.getType.typeName
       val isFinal = ModifierSet.isFinal(modifiers)
-      val variables = declaration.getVariables
+      val variables = field.getVariables
 
-
-      val xml = new StringBuilder
-
-      variables.foreach {
-        v =>
-          val id = v.getId
-          xml.append( s"""<field name="${id}" type="${fieldTypeName}" isFinal="${isFinal}" />""")
-      }
-
-      xml.toString()
+      variables.collect {
+        case v => s"""<field name="${v.getId}" type="${fieldTypeName}" isFinal="${isFinal}" />"""
+      }.mkString("")
 
     }
 
-    case d: ConstructorDeclaration => {
+    case constructor: ConstructorDeclaration => {
 
-      val modifiers = d.getModifiers
+      val modifiers = constructor.getModifiers
       val modifierName = if (ModifierSet.isPrivate(modifiers)) "private"
       else if (ModifierSet.isPublic(modifiers)) "public"
       else if (ModifierSet.isProtected(modifiers)) "protected"
       else throw new Error("Cannot find modifier name!")
 
-      val parameters = d.getParameters
-      val typeParameters = d.getTypeParameters
+      val parameters = constructor.getParameters
+      val typeParameters = constructor.getTypeParameters
+
+      val block = constructor.getBlock
+      val stmts = block.getStmts
+
 
       <constructor modifier={modifierName}>
         <parameters>
@@ -75,8 +92,8 @@ class RichBodyDeclaration(bd: BodyDeclaration) extends XMLRepresentation {
 
     }
 
-    case d@_ => {
-      throw new Error(s"Unknown BodyDeclaration! Found ${d}")
+    case declaration@_ => {
+      throw new Error(s"Unknown BodyDeclaration! Found ${declaration}")
     }
 
   }
