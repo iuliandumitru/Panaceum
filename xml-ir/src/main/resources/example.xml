@@ -1,55 +1,41 @@
-<class name='GroupByReducePipe'>
-    <method name='processNextStart' modifier=''>
-        <body>
-            <expression>final S s = this.starts.next()</expression>
-            <expression>final K key = this.getKey(s)</expression>
-            <expression>final V value = this.getValue(s)</expression>
-            <expression>ExpandableMultiIterator
-                <V>
-                values = (ExpandableMultiIterator<V>) this.byMap.get(key)
-            </expression>
-            <expression>values = new ExpandableMultiIterator<V>()
-            </expression>
-            <expression>this.addValue(value, values)</expression>
-            <expression>this.byMap.put(key, values)</expression>
-            <expression>this.addValue(value, values)</expression>
-            <expression>this.reduceMap.put(entry.getKey(), reduceFunction.compute(entry.getValue()))</expression>
-            <expression>this.byMap.clear()</expression>
-        </body>
-    </method>
-    <method name='addValue' modifier='public'>
-        <parameters>
-            <parameter name='value'/>
-            <parameter name='values'/>
-        </parameters>
-        <body>
-            <expression>values.addIterator((Pipe) value)</expression>
-            <expression>values.addIterator(new SingleIterator<V>(value))
-            </expression>
-        </body>
-    </method>
-    <method name='getSideEffect' modifier='public'>
-        <body></body>
-    </method>
-    <method name='getKey' modifier='private'>
-        <parameters>
-            <parameter name='start'/>
-        </parameters>
-        <body></body>
-    </method>
-    <method name='getValue' modifier='private'>
-        <parameters>
-            <parameter name='start'/>
-        </parameters>
-        <body></body>
-    </method>
-    <method name='reset' modifier='public'>
-        <body>
-            <expression>this.byMap = new HashMap<K, Iterator<V>>()
-            </expression>
-            <expression>this.reduceMap = new HashMap<K, V2>()
-            </expression>
-            <expression>super.reset()</expression>
-        </body>
-    </method>
-</class>
+<unit>
+    <package name="com.tinkerpop.pipes.sideeffect"/>
+    <imports>
+        <import>com.tinkerpop.pipes.AbstractPipe</import>
+        <import>com.tinkerpop.pipes.Pipe</import>
+        <import>com.tinkerpop.pipes.PipeFunction</import>
+        <import>com.tinkerpop.pipes.util.iterators.ExpandableMultiIterator</import>
+        <import>com.tinkerpop.pipes.util.iterators.SingleIterator</import>
+        <import>java.util.HashMap</import>
+        <import>java.util.Iterator</import>
+        <import>java.util.Map</import>
+    </imports>
+    <class name="GroupByReducePipe">
+        <field isFinal="false" type="Map" name="byMap"/>
+        <field isFinal="true" type="PipeFunction" name="keyFunction"/>
+        <field isFinal="true" type="PipeFunction" name="valueFunction"/>
+        <field isFinal="true" type="PipeFunction" name="reduceFunction"/>
+        <field isFinal="false" type="Map" name="reduceMap"/>
+        <constructor modifier="public">
+            <parameters>
+                <parameter type="PipeFunction" name="keyFunction"/>
+                <parameter type="PipeFunction" name="valueFunction"/>
+                <parameter type="PipeFunction" name="reduceFunction"/>
+            </parameters>
+        </constructor>
+        <constructor modifier="public">
+            <parameters>
+                <parameter type="Map" name="reduceMap"/>
+                <parameter type="PipeFunction" name="keyFunction"/>
+                <parameter type="PipeFunction" name="valueFunction"/>
+                <parameter type="PipeFunction" name="reduceFunction"/>
+            </parameters>
+        </constructor>
+        <method isAbstract="false" isFinal="false" modifer="protected" name="processNextStart"/>
+        <method isAbstract="false" isFinal="false" modifer="public" name="addValue"/>
+        <method isAbstract="false" isFinal="false" modifer="public" name="getSideEffect"/>
+        <method isAbstract="false" isFinal="false" modifer="private" name="getKey"/>
+        <method isAbstract="false" isFinal="false" modifer="private" name="getValue"/>
+        <method isAbstract="false" isFinal="false" modifer="public" name="reset"/>
+    </class>
+</unit>

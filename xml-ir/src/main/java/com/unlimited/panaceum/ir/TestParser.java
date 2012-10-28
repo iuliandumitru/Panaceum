@@ -31,15 +31,17 @@ public class TestParser {
             cu = JavaParser.parse(in);
         }
 
+        System.out.println(cu);
+
 
 //        new CompilationUnitVisitor().visit(cu, null);
-        new TypeVisitor().visit(cu, null);
-        new MethodVisitor().visit(cu, null);
+//        new TypeVisitor().visit(cu, null);
+//        new MethodVisitor().visit(cu, null);
 
-        XML.append("</class>");
+//        XML.append("</class>");
 
 
-        System.out.println(XML);
+//        System.out.println(XML);
 
 //        String formattedXML = XmlFormatter.format(XML.toString());
 //        System.out.println(formattedXML);

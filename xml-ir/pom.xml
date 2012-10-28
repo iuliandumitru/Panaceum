@@ -14,6 +14,7 @@
 
     <groupId>com.unlimited.panaceum</groupId>
     <artifactId>xml-ir</artifactId>
+    <description>XML Intermediate Representation</description>
 
     <dependencies>
 
