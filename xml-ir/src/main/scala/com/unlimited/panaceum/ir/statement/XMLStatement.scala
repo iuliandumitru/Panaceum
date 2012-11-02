@@ -1,33 +1,24 @@
-package com.unlimited.panaceum.ir
+package com.unlimited.panaceum.ir.statement
 
 import japa.parser.ast.stmt._
 import scala.collection.JavaConversions._
 import com.unlimited.panaceum.ir.CompilationUnitConversions._
 import xml.Elem
+import com.unlimited.panaceum.ir.XMLRepresentation
 
 /**
  * Enhance statement with XML representation.
  *
  * @author Iulian Dumitru 
  */
-class RichStatement(statement: Statement) extends XMLRepresentation {
-
-  implicit def xmlToString(xml: Elem) = xml.toString()
-
+class XMLStatement(statement: Statement) extends XMLRepresentation {
 
   def toXML = statement match {
 
     //ignore this for now
-    case s: AssertStmt => ""
+    case s: AssertStmt => <assert></assert>
 
-    case s: BlockStmt => {
-
-      val stmts = s.getStmts
-      stmts.collect {
-        case s: Statement => s.toXML
-      }.mkString
-
-    }
+    case s: BlockStmt =>  <block></block>
 
     case s: BreakStmt => {
 
@@ -64,9 +55,7 @@ class RichStatement(statement: Statement) extends XMLRepresentation {
 
     }
 
-    case s: EmptyStmt => {
-      ""
-    }
+    case s: EmptyStmt => <empty></empty>
 
     case s: ExplicitConstructorInvocationStmt => {
 

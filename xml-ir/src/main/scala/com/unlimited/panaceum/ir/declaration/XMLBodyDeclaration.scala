@@ -1,19 +1,19 @@
-package com.unlimited.panaceum.ir
+package com.unlimited.panaceum.ir.declaration
 
 import japa.parser.ast.body._
 import com.unlimited.panaceum.ir.TypeConversions._
 import scala.collection.JavaConversions._
+import com.unlimited.panaceum.ir.XMLRepresentation
 
 /**
  * Body Declaration enhanced with XML representation.
  *
  * @author Iulian Dumitru 
  */
-class RichBodyDeclaration(val bd: BodyDeclaration) extends XMLRepresentation {
+class XMLBodyDeclaration(val bd: BodyDeclaration) extends XMLRepresentation {
 
-  implicit def anyToText(a: AnyVal) = xml.Text(a.toString)
 
-  def toXML: String = bd match {
+  def toXML = bd match {
 
     case method: MethodDeclaration => {
 
@@ -32,40 +32,45 @@ class RichBodyDeclaration(val bd: BodyDeclaration) extends XMLRepresentation {
       val body = method.getBody
       val stmts = body.getStmts
 
+      //
+      //      //generate <method> tags
+      //      params match {
+      //        case null => {
+      //          <method name={method.getName} modifer={modifierName} isFinal={isFinal} isAbstract={isAbstract}>
+      //            <body>
+      //              {for (stmt <- body.getStmts) yield <stmt type={stmt.getClass.getSimpleName}/>}
+      //            </body>
+      //          </method>.toString()
+      //        }
+      //        case _ =>
+      //          <method name={method.getName} modifer={modifierName} isFinal={isFinal} isAbstract={isAbstract}>
+      //            <parameters>
+      //              {for (param <- params) yield <parameter name={param.getId.getName} type={param.getType.typeName}/>}
+      //            </parameters>
+      //            <body>
+      //              {for (stmt <- body.getStmts) yield <stmt type={stmt.getClass.getSimpleName}/>}
+      //            </body>
+      //          </method>.toString()
+      //      }
 
-      //generate <method> tags
-      params match {
-        case null => {
-          <method name={method.getName} modifer={modifierName} isFinal={isFinal} isAbstract={isAbstract}>
-            <body>
-              {for (stmt <- body.getStmts) yield <stmt type={stmt.getClass.getSimpleName}/>}
-            </body>
-          </method>.toString()
-        }
-        case _ =>
-          <method name={method.getName} modifer={modifierName} isFinal={isFinal} isAbstract={isAbstract}>
-            <parameters>
-              {for (param <- params) yield <parameter name={param.getId.getName} type={param.getType.typeName}/>}
-            </parameters>
-            <body>
-              {for (stmt <- body.getStmts) yield <stmt type={stmt.getClass.getSimpleName}/>}
-            </body>
-          </method>.toString()
-      }
+      <method>
+
+      </method>
 
     }
 
     case field: FieldDeclaration => {
 
-      val modifiers = field.getModifiers
-      val fieldTypeName = field.getType.typeName
-      val isFinal = ModifierSet.isFinal(modifiers)
-      val variables = field.getVariables
+//      val modifiers = field.getModifiers
+//      val fieldTypeName = field.getType.typeName
+//      val isFinal = ModifierSet.isFinal(modifiers)
+//      val variables = field.getVariables
+//
+//      variables.collect {
+//        case v => s"""<field name="${v.getId}" type="${fieldTypeName}" isFinal="${isFinal}" />"""
+//      }.mkString("")
 
-      variables.collect {
-        case v => s"""<field name="${v.getId}" type="${fieldTypeName}" isFinal="${isFinal}" />"""
-      }.mkString("")
-
+      <field></field>
     }
 
     case constructor: ConstructorDeclaration => {
@@ -87,7 +92,7 @@ class RichBodyDeclaration(val bd: BodyDeclaration) extends XMLRepresentation {
         <parameters>
           {for (p <- parameters) yield <parameter name={p.getId.getName} type={p.getType.typeName}/>}
         </parameters>
-      </constructor>.toString()
+      </constructor>
 
 
     }

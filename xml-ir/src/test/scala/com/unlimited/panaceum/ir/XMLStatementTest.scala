@@ -8,7 +8,7 @@ import com.unlimited.panaceum.utils.LoggingTrait
 /**
  * @author Iulian Dumitru 
  */
-class RichStatementTest extends LoggingTrait {
+class XMLStatementTest extends LoggingTrait {
 
 
   @Test
