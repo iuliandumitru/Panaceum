@@ -15,6 +15,10 @@ import java.util.Map;
  */
 public class GroupByReducePipe<S, K, V, V2> extends AbstractPipe<S, S> implements SideEffectPipe<S, Map<K, V2>> {
 
+    public static int stuff(){
+        return 0;
+    }
+
     private Map<K, Iterator<V>> byMap = new HashMap<K, Iterator<V>>();
 
     private final PipeFunction<S, K> keyFunction;
@@ -94,10 +98,20 @@ public class GroupByReducePipe<S, K, V, V2> extends AbstractPipe<S, S> implement
 
 }
 
-class Hidden{
+class Hidden implements Callback{
+
+    static class Helper{
+
+    }
 
 }
 
 interface Callback<T>{
 
+    void execute(T t);
+
+}
+
+enum Numbers{
+    ONE, TWO
 }

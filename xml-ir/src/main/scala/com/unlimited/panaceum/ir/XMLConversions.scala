@@ -1,10 +1,10 @@
 package com.unlimited.panaceum.ir
 
 import comment.XMLCommentDeclaration
-import declaration.{XMLTypeDeclaration, XMLImportDeclaration, XMLPackageDeclaration, XMLBodyDeclaration}
+import declaration._
 import expression.XMLExpression
 import japa.parser.ast._
-import japa.parser.ast.body.{TypeDeclaration, BodyDeclaration}
+import body.{EnumConstantDeclaration, TypeDeclaration, BodyDeclaration}
 import japa.parser.ast.stmt.Statement
 import japa.parser.ast.expr.Expression
 import statement.XMLStatement
@@ -28,7 +28,7 @@ object XMLConversions {
 
   implicit def toXMLComment(e: Comment): XMLRepresentation = new XMLCommentDeclaration(e)
 
-
+  implicit def toXMLXMLEnumConstantDeclaration(e: EnumConstantDeclaration): XMLRepresentation = new XMLEnumConstantDeclaration(e)
 
 
   implicit def toXMLBodyDeclaration(e: BodyDeclaration): XMLRepresentation = new XMLBodyDeclaration(e)
