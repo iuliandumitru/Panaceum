@@ -4,6 +4,7 @@ import japa.parser.ast.body._
 import com.unlimited.panaceum.ir.TypeConversions._
 import scala.collection.JavaConversions._
 import com.unlimited.panaceum.ir.XMLRepresentation
+import com.unlimited.panaceum.ir.XMLConversions._
 
 /**
  * Body Declaration enhanced with XML representation.
@@ -14,6 +15,8 @@ class XMLBodyDeclaration(val bd: BodyDeclaration) extends XMLRepresentation {
 
 
   def toXML = bd match {
+
+    case declaration:TypeDeclaration => declaration.toXML
 
     case method: MethodDeclaration => {
 

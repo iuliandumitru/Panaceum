@@ -2,6 +2,7 @@ package com.unlimited.panaceum.ir
 
 import org.junit.Test
 import japa.parser.JavaParser
+import unit.XMLCompilationUnit
 
 /**
  * @author Iulian Dumitru

@@ -93,3 +93,11 @@ public class GroupByReducePipe<S, K, V, V2> extends AbstractPipe<S, S> implement
     }
 
 }
+
+class Hidden{
+
+}
+
+interface Callback<T>{
+
+}

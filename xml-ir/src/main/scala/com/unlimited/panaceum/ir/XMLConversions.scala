@@ -1,12 +1,14 @@
 package com.unlimited.panaceum.ir
 
-import declaration.{XMLImportDeclaration, XMLPackageDeclaration, XMLBodyDeclaration}
+import comment.XMLCommentDeclaration
+import declaration.{XMLTypeDeclaration, XMLImportDeclaration, XMLPackageDeclaration, XMLBodyDeclaration}
 import expression.XMLExpression
-import japa.parser.ast.{ImportDeclaration, PackageDeclaration, Node, CompilationUnit}
-import japa.parser.ast.body.BodyDeclaration
+import japa.parser.ast._
+import japa.parser.ast.body.{TypeDeclaration, BodyDeclaration}
 import japa.parser.ast.stmt.Statement
 import japa.parser.ast.expr.Expression
 import statement.XMLStatement
+import unit.XMLCompilationUnit
 
 /**
  * Implicit conversions to simplify XML representation support.
@@ -14,13 +16,19 @@ import statement.XMLStatement
  * @author Iulian Dumitru 
  */
 
-object CompilationUnitConversions {
+object XMLConversions {
 
   implicit def toXMLCompilationUnit(e: CompilationUnit): XMLRepresentation = new XMLCompilationUnit(e)
 
   implicit def toXMLPackageDeclaration(e: PackageDeclaration): XMLRepresentation = new XMLPackageDeclaration(e)
 
   implicit def toXMLImportDeclaration(e: ImportDeclaration): XMLRepresentation = new XMLImportDeclaration(e)
+
+  implicit def toXMLTypeDeclaration(e: TypeDeclaration): XMLRepresentation = new XMLTypeDeclaration(e)
+
+  implicit def toXMLComment(e: Comment): XMLRepresentation = new XMLCommentDeclaration(e)
+
+
 
 
   implicit def toXMLBodyDeclaration(e: BodyDeclaration): XMLRepresentation = new XMLBodyDeclaration(e)

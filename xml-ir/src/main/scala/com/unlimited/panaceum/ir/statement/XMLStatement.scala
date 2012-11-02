@@ -2,7 +2,7 @@ package com.unlimited.panaceum.ir.statement
 
 import japa.parser.ast.stmt._
 import scala.collection.JavaConversions._
-import com.unlimited.panaceum.ir.CompilationUnitConversions._
+import com.unlimited.panaceum.ir.XMLConversions._
 import xml.Elem
 import com.unlimited.panaceum.ir.XMLRepresentation
 
