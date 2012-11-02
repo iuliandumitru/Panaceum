@@ -1,84 +1,47 @@
 <unit>
-    <package name="com.tinkerpop.pipes.sideeffect"/>
+    <package> com.tinkerpop.pipes.sideeffect </package>
+    <comments>
+        <comment type="javadoc"> * @author Marko A. Rodriguez (http://markorodriguez.com) </comment>
+    </comments>
     <imports>
-        <import>com.tinkerpop.pipes.AbstractPipe</import>
-        <import>com.tinkerpop.pipes.Pipe</import>
-        <import>com.tinkerpop.pipes.PipeFunction</import>
-        <import>com.tinkerpop.pipes.util.iterators.ExpandableMultiIterator</import>
-        <import>com.tinkerpop.pipes.util.iterators.SingleIterator</import>
-        <import>java.util.HashMap</import>
-        <import>java.util.Iterator</import>
-        <import>java.util.Map</import>
+        <import all="false" static="false"> com.tinkerpop.pipes.AbstractPipe </import>
+        <import all="false" static="false"> com.tinkerpop.pipes.Pipe </import>
+        <import all="false" static="false"> com.tinkerpop.pipes.PipeFunction </import>
+        <import all="false" static="false"> com.tinkerpop.pipes.util.iterators.ExpandableMultiIterator </import>
+        <import all="false" static="false"> com.tinkerpop.pipes.util.iterators.SingleIterator </import>
+        <import all="false" static="false"> java.util.HashMap </import>
+        <import all="false" static="false"> java.util.Iterator </import>
+        <import all="false" static="false"> java.util.Map </import>
     </imports>
-    <class extends="AbstractPipe" name="GroupByReducePipe">
-        <field isFinal="false" type="Map" name="byMap"/>
-        <field isFinal="true" type="PipeFunction" name="keyFunction"/>
-        <field isFinal="true" type="PipeFunction" name="valueFunction"/>
-        <field isFinal="true" type="PipeFunction" name="reduceFunction"/>
-        <field isFinal="false" type="Map" name="reduceMap"/>
-        <constructor modifier="public">
+    <types>
+        <class name="GroupByReducePipe">
+            <extends>
+                <extend>AbstractPipe</extend>
+            </extends>
+            <implements>
+                <implement>SideEffectPipe</implement>
+            </implements>
             <parameters>
-                <parameter type="PipeFunction" name="keyFunction"/>
-                <parameter type="PipeFunction" name="valueFunction"/>
-                <parameter type="PipeFunction" name="reduceFunction"/>
+                <param type="S"/>
+                <param type="K"/>
+                <param type="V"/>
+                <param type="V2"/>
             </parameters>
-        </constructor>
-        <constructor modifier="public">
+        </class>
+        <class name="Hidden">
+            <implements>
+                <implement>Callback</implement>
+            </implements>
+        </class>
+        <interface name="Callback">
             <parameters>
-                <parameter type="Map" name="reduceMap"/>
-                <parameter type="PipeFunction" name="keyFunction"/>
-                <parameter type="PipeFunction" name="valueFunction"/>
-                <parameter type="PipeFunction" name="reduceFunction"/>
+                <param type="T"/>
             </parameters>
-        </constructor>
-        <method isAbstract="false" isFinal="false" modifer="protected" name="processNextStart">
-            <body>
-                <stmt type="ExpressionStmt"/>
-                <stmt type="ExpressionStmt"/>
-                <stmt type="ExpressionStmt"/>
-                <stmt type="ExpressionStmt"/>
-                <stmt type="IfStmt"/>
-                <stmt type="IfStmt"/>
-                <stmt type="ReturnStmt"/>
-            </body>
-        </method>
-        <method isAbstract="false" isFinal="false" modifer="public" name="addValue">
-            <parameters>
-                <parameter type="V" name="value"/>
-                <parameter type="ExpandableMultiIterator" name="values"/>
-            </parameters>
-            <body>
-                <stmt type="IfStmt"/>
-            </body>
-        </method>
-        <method isAbstract="false" isFinal="false" modifer="public" name="getSideEffect">
-            <body>
-                <stmt type="ReturnStmt"/>
-            </body>
-        </method>
-        <method isAbstract="false" isFinal="false" modifer="private" name="getKey">
-            <parameters>
-                <parameter type="S" name="start"/>
-            </parameters>
-            <body>
-                <stmt type="IfStmt"/>
-            </body>
-        </method>
-        <method isAbstract="false" isFinal="false" modifer="private" name="getValue">
-            <parameters>
-                <parameter type="S" name="start"/>
-            </parameters>
-            <body>
-                <stmt type="IfStmt"/>
-            </body>
-        </method>
-        <method isAbstract="false" isFinal="false" modifer="public" name="reset">
-            <body>
-                <stmt type="ExpressionStmt"/>
-                <stmt type="ExpressionStmt"/>
-                <stmt type="ExpressionStmt"/>
-            </body>
-        </method>
-    </class>
+        </interface>
+        <enum name="Numbers">
+            <field>ONE</field>
+            <field>TWO</field>
+        </enum>
+    </types>
 </unit>
 

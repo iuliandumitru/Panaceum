@@ -13,6 +13,6 @@ class XMLEnumConstantDeclaration(declaration: EnumConstantDeclaration) extends X
    *
    * @return XML representation of an object
    */
-  def toXML: Elem = <constant>{declaration.getName}</constant>
+  def toXML = <field>{declaration.getName}</field>
 
 }

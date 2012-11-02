@@ -26,7 +26,7 @@ trait XMLRepresentation {
   /**
    * @return formatted xml representation
    */
-  def toFormattedXML: String = XmlFormatter.format(toXML.toString())
+  def toFormattedXML: String = XmlFormatter.format(toXML)
 
 }
 

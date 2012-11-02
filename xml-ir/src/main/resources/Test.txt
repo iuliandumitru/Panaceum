@@ -19,6 +19,10 @@ public class GroupByReducePipe<S, K, V, V2> extends AbstractPipe<S, S> implement
         return 0;
     }
 
+    private static class InnerStuff{
+
+    }
+
     private Map<K, Iterator<V>> byMap = new HashMap<K, Iterator<V>>();
 
     private final PipeFunction<S, K> keyFunction;

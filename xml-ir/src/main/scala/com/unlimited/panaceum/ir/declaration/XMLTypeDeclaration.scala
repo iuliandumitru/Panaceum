@@ -7,6 +7,8 @@ import japa.parser.ast.TypeParameter
 import scala.collection.JavaConversions._
 
 import com.unlimited.panaceum.ir.XMLConversions._
+import japa.parser.ast.`type`.ClassOrInterfaceType
+
 /**
  * @author Iulian Dumitru
  */
@@ -27,34 +29,53 @@ class XMLTypeDeclaration(declaration: TypeDeclaration) extends XMLRepresentation
         case _ => d.getTypeParameters
       }
 
-      val extendsList = d.getExtends
-      val implementsList = d.getImplements
+      val extendsList = d.getExtends match {
+        case null => new util.ArrayList[ClassOrInterfaceType]
+        case _ => d.getExtends
+      }
 
+      val implementsList = d.getImplements match {
+        case null => new util.ArrayList[ClassOrInterfaceType]
+        case _ => d.getImplements
+      }
 
       d.isInterface match {
         case true => {
+
           <interface name={d.getName}>
-
+            {if (extendsList.size()>0)
+            <extends>
+              {for {e <- extendsList} yield <extend>{e.getName}</extend>}
+            </extends>
+            }
+            {if (typeParameters.size()>0)
             <parameters>
-              {typeParameters.map {
-              t =>
-                <param name={t.getName}></param>
-            }}
+              {for { p <- typeParameters} yield <param type={p.getName}></param> }
             </parameters>
-
+            }
           </interface>
+
         }
 
         case false => {
           <class name={d.getName}>
+            {if (extendsList.size()>0)
+            <extends>
+              {for {e <- extendsList} yield <extend>{e.getName}</extend>}
+            </extends>
+            }
 
+            {if (implementsList.size()>0)
+            <implements>
+              {for {e <- implementsList} yield <implement>{e.getName}</implement>}
+            </implements>
+            }
+
+            {if (typeParameters.size()>0)
             <parameters>
-              {typeParameters.map {
-              t =>
-                <param name={t.getName}></param>
-            }}
+              {for { p <- typeParameters} yield <param type={p.getName}></param> }
             </parameters>
-
+            }
           </class>
         }
 
@@ -66,7 +87,9 @@ class XMLTypeDeclaration(declaration: TypeDeclaration) extends XMLRepresentation
 
     case d: EnumDeclaration => {
       <enum name={d.getName}>
-        {for (entry <- d.getEntries) yield {entry.toXML}}
+        {for (entry <- d.getEntries) yield {
+        entry.toXML
+      }}
       </enum>
     }
 
